@@ -60,12 +60,13 @@ const ScribeModal: React.FC<{ plugin: ScribePlugin }> = ({ plugin }) => {
     isDisableLlmTranscription: plugin.settings.isDisableLlmTranscription,
     audioFileLanguage: plugin.settings.audioFileLanguage,
     scribeOutputLanguage: plugin.settings.scribeOutputLanguage,
-    transcriptPlatform: plugin.settings.transcriptPlatform,
     llmModel: plugin.settings.llmModel,
     activeNoteTemplate: plugin.settings.activeNoteTemplate,
   });
 
-  const hasOpenAiApiKey = Boolean(plugin.settings.openAiApiKey);
+  const hasApiKeys =
+    Boolean(plugin.settings.anthropicApiKey) &&
+    Boolean(plugin.settings.assemblyAiApiKey);
 
   const handleStart = async () => {
     setRecordingState('recording');
@@ -110,19 +111,32 @@ const ScribeModal: React.FC<{ plugin: ScribePlugin }> = ({ plugin }) => {
 
   return (
     <div className="scribe-modal-container">
-      {!hasOpenAiApiKey && (
+      {!hasApiKeys && (
         <div className="scribe-settings-warning-container">
           <h1>
-            ️<CircleAlert /> Missing Open AI API key
+            ️<CircleAlert /> Missing API keys
           </h1>
           <h2 className="scribe-settings-warning">
-            Please enter the key in the plugin settings.
+            Please enter your API keys in the plugin settings.
           </h2>
-          <p>You can get your API key here</p>
-          <a href="https://platform.openai.com/settings">OpenAI Platform</a>
+          <p>You need both:</p>
+          <ul>
+            <li>
+              <a href="https://console.anthropic.com/settings/keys">
+                Anthropic API key
+              </a>{' '}
+              (for Claude summarization)
+            </li>
+            <li>
+              <a href="https://www.assemblyai.com/app/account">
+                AssemblyAI API key
+              </a>{' '}
+              (for transcription)
+            </li>
+          </ul>
         </div>
       )}
-      {hasOpenAiApiKey && (
+      {hasApiKeys && (
         <>
           <ModalRecordingTimer startTimeMs={recordingStartTimeMs} />
 

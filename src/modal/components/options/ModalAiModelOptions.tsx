@@ -1,12 +1,6 @@
 import type { ScribeOptions } from 'src';
 import { SettingsItem } from 'src/settings/components/SettingsItem';
-import { TRANSCRIPT_PLATFORM } from 'src/settings/settings';
-import {
-  LanguageDisplayNames,
-  LanguageOptions,
-  type OutputLanguageOptions,
-} from 'src/util/consts';
-import { LLM_MODELS } from 'src/util/openAiUtils';
+import { LLM_MODELS } from 'src/util/anthropicUtils';
 
 export function ModalAiModelOptions({
   options,
@@ -22,12 +16,12 @@ export function ModalAiModelOptions({
     });
   };
 
-  const { transcriptPlatform, llmModel } = options;
+  const { llmModel } = options;
 
   return (
     <div className="scribe-recording-options">
       <SettingsItem
-        name="LLM model"
+        name="Claude model"
         description=""
         control={
           <select
@@ -49,25 +43,9 @@ export function ModalAiModelOptions({
       />
 
       <SettingsItem
-        name="Transcript platform"
+        name="Transcription"
         description=""
-        control={
-          <select
-            defaultValue={transcriptPlatform}
-            className="dropdown"
-            onChange={(e) => {
-              handleOptionsChange({
-                transcriptPlatform: e.target.value as TRANSCRIPT_PLATFORM,
-              });
-            }}
-          >
-            {Object.keys(TRANSCRIPT_PLATFORM).map((platform) => (
-              <option key={platform} value={platform}>
-                {platform}
-              </option>
-            ))}
-          </select>
-        }
+        control={<span>AssemblyAI</span>}
       />
     </div>
   );

@@ -4,7 +4,7 @@ import { useDebounce } from 'src/util/useDebounce';
 
 import type ScribePlugin from 'src';
 
-import { LLM_MODELS } from 'src/util/openAiUtils';
+import { LLM_MODELS } from 'src/util/anthropicUtils';
 
 import { useState } from 'react';
 import { LanguageOptions, type OutputLanguageOptions } from 'src/util/consts';
@@ -20,7 +20,6 @@ import { SettingsFormProvider } from './provider/SettingsFormProvider';
 
 export enum TRANSCRIPT_PLATFORM {
   assemblyAi = 'assemblyAi',
-  openAi = 'openAi',
 }
 
 export enum OBSIDIAN_PATHS {
@@ -29,7 +28,7 @@ export enum OBSIDIAN_PATHS {
 }
 export interface ScribePluginSettings {
   assemblyAiApiKey: string;
-  openAiApiKey: string;
+  anthropicApiKey: string;
   recordingDirectory: string;
   transcriptDirectory: string;
   transcriptPlatform: TRANSCRIPT_PLATFORM;
@@ -49,21 +48,16 @@ export interface ScribePluginSettings {
   isFrontMatterLinkToScribe: boolean;
   selectedAudioDeviceId: string;
   audioFileFormat: 'webm' | 'mp3';
-  // Custom OpenAI settings
-  useCustomOpenAiBaseUrl: boolean;
-  customOpenAiBaseUrl: string;
-  customTranscriptModel: string;
-  customChatModel: string;
 }
 
 export const DEFAULT_SETTINGS: ScribePluginSettings = {
   assemblyAiApiKey: '',
-  openAiApiKey: '',
+  anthropicApiKey: '',
   recordingDirectory: OBSIDIAN_PATHS.resourceFolder,
   transcriptDirectory: OBSIDIAN_PATHS.noteFolder,
-  transcriptPlatform: TRANSCRIPT_PLATFORM.openAi,
+  transcriptPlatform: TRANSCRIPT_PLATFORM.assemblyAi,
   isMultiSpeakerEnabled: false,
-  llmModel: LLM_MODELS['gpt-4o'],
+  llmModel: LLM_MODELS['claude-sonnet-4-20250514'],
   noteFilenamePrefix: 'scribe-{{date}}-',
   recordingFilenamePrefix: 'scribe-recording-{{date}}',
   dateFilenameFormat: 'YYYY-MM-DD',
@@ -78,11 +72,6 @@ export const DEFAULT_SETTINGS: ScribePluginSettings = {
   isFrontMatterLinkToScribe: true,
   selectedAudioDeviceId: '',
   audioFileFormat: 'webm',
-  // Custom OpenAI settings
-  useCustomOpenAiBaseUrl: false,
-  customOpenAiBaseUrl: '',
-  customTranscriptModel: 'whisper-1',
-  customChatModel: 'gpt-4o',
 };
 
 export async function handleSettingsTab(plugin: ScribePlugin) {
@@ -116,7 +105,7 @@ export class ScribeSettingsTab extends PluginSettingTab {
       button.onClick(async () => {
         this.plugin.settings = {
           ...DEFAULT_SETTINGS,
-          openAiApiKey: this.plugin.settings.openAiApiKey,
+          anthropicApiKey: this.plugin.settings.anthropicApiKey,
           assemblyAiApiKey: this.plugin.settings.assemblyAiApiKey,
         };
 

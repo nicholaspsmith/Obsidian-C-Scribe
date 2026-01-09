@@ -1,15 +1,5 @@
-import { useEffect } from 'react';
 import type { ScribeOptions } from 'src';
-import type ScribePlugin from 'src';
-import { TRANSCRIPT_PLATFORM } from 'src/settings/settings';
-import type { ScribeModelOptions } from '../ModalOptionsContainer';
 import { SettingsItem } from 'src/settings/components/SettingsItem';
-import {
-  LanguageDisplayNames,
-  LanguageOptions,
-  type OutputLanguageOptions,
-} from 'src/util/consts';
-import { ButtonComponent } from 'obsidian';
 import type { ScribeTemplate } from 'src/settings/components/NoteTemplateSettings';
 
 export function ModalRecordingOptions({
@@ -33,7 +23,6 @@ export function ModalRecordingOptions({
     isOnlyTranscribeActive,
     isSaveAudioFileActive,
     isMultiSpeakerEnabled,
-    transcriptPlatform,
     activeNoteTemplate,
   } = options;
 
@@ -77,20 +66,18 @@ export function ModalRecordingOptions({
         Save audio file
       </label>
 
-      {transcriptPlatform === TRANSCRIPT_PLATFORM.assemblyAi && (
-        <label>
-          <input
-            type="checkbox"
-            checked={isMultiSpeakerEnabled}
-            onChange={(event) => {
-              handleOptionsChange({
-                isMultiSpeakerEnabled: event.target.checked,
-              });
-            }}
-          />
-          Multi-speaker enabled
-        </label>
-      )}
+      <label>
+        <input
+          type="checkbox"
+          checked={isMultiSpeakerEnabled}
+          onChange={(event) => {
+            handleOptionsChange({
+              isMultiSpeakerEnabled: event.target.checked,
+            });
+          }}
+        />
+        Multi-speaker enabled (AssemblyAI)
+      </label>
 
       <SettingsItem
         name="Active template"
