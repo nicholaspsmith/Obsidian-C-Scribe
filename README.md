@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logos/happy-logo.png" alt="C-Scribe Logo" width="200">
+  <img src="logos/mr-c.png" alt="C-Scribe Logo" width="200">
 </p>
 
 # C-Scribe for Obsidian
