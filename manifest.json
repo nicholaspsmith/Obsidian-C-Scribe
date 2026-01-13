@@ -1,10 +1,10 @@
 {
 	"id": "c-scribe",
 	"name": "C-Scribe",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"minAppVersion": "0.15.0",
-	"description": "Record, transcribe, and transform voice notes into structured insights. Uses AssemblyAI for transcription and Claude for intelligent summarization — all seamlessly integrated within Obsidian.",
-	"author": "Based on Scribe by Mike Alicea",
+	"description": "Record voice notes, transcribe with AssemblyAI, and summarize conversations with Claude. Based on Scribe by Mike Alicea.",
+	"author": "Nicholas Smith",
 	"authorUrl": "https://github.com/Mikodin/",
 	"isDesktopOnly": false
 }
