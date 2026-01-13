@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="logos/happy-logo.png" alt="C-Scribe Logo" width="200">
+</p>
+
 # C-Scribe for Obsidian
 
 Record voice notes, transcribe with AssemblyAI, and summarize conversations with Claude. Based on [Scribe by Mike Alicea](https://github.com/Mikodin/obsidian-scribe).
