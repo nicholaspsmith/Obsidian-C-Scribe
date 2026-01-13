@@ -4,7 +4,10 @@ import { AudioRecord } from './audioRecord/audioRecord';
 import { handleCommands } from './commands/commands';
 import { ScribeControlsModal } from './modal/scribeControlsModal';
 import { handleRibbon } from './ribbon/ribbon';
-import type { ScribeTemplate } from './settings/components/NoteTemplateSettings';
+import {
+  CONVERSATION_TEMPLATE,
+  type ScribeTemplate,
+} from './settings/components/NoteTemplateSettings';
 import {
   DEFAULT_SETTINGS,
   handleSettingsTab,
@@ -82,6 +85,15 @@ export default class ScribePlugin extends Plugin {
   async loadSettings() {
     const savedUserData: ScribePluginSettings = await this.loadData();
     this.settings = { ...DEFAULT_SETTINGS, ...savedUserData };
+
+    // Migration: Add Conversation template if it doesn't exist
+    const hasConversationTemplate = this.settings.noteTemplates.some(
+      (t) => t.name === CONVERSATION_TEMPLATE.name,
+    );
+    if (!hasConversationTemplate) {
+      this.settings.noteTemplates.push(CONVERSATION_TEMPLATE);
+      await this.saveData(this.settings);
+    }
 
     const defaultPathSettings = await getDefaultPathSettings(this);
 

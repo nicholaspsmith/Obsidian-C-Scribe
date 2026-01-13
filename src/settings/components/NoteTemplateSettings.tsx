@@ -41,8 +41,8 @@ It will be nested under an h2 tag, so use a tag less than that for headers
       sectionHeader: 'Mermaid Chart',
       sectionOutputPrefix: '```mermaid',
       sectionOutputPostfix: '```',
-      sectionInstructions: `A valid unicode mermaid chart that shows a concept map consisting of both what insights you had along with what the speaker said for the mermaid chart, 
-Dont wrap it in anything, just output the mermaid chart.  
+      sectionInstructions: `A valid unicode mermaid chart that shows a concept map consisting of both what insights you had along with what the speaker said for the mermaid chart,
+Dont wrap it in anything, just output the mermaid chart.
 Do not use any special characters that arent letters in the nodes text, particularly new lines, tabs, or special characters like apostraphes or quotes or commas`,
     },
     {
@@ -53,6 +53,59 @@ Do not use any special characters that arent letters in the nodes text, particul
 Put the text in markdown, it will be nested under an h2 tag, so use a tag less than that for headers
 Summarize the question in a short sentence as a header and place your reply nicely below for as many questions as there are
 Answer their questions in a clear and concise manner`,
+    },
+  ],
+};
+
+export const CONVERSATION_TEMPLATE: ScribeTemplate = {
+  id: 'conversation',
+  name: 'Conversation',
+  sections: [
+    {
+      id: '1',
+      sectionHeader: 'Participants',
+      isSectionOptional: true,
+      sectionInstructions: `List the participants in the conversation if identifiable from context (names, roles, or Speaker A/B if unknown).
+Format as a simple bullet list. If only one person is speaking or participants cannot be determined, leave empty.`,
+    },
+    {
+      id: '2',
+      sectionHeader: 'Summary',
+      sectionInstructions: `A concise 2-3 sentence overview of what this conversation was about.
+Capture the main purpose and outcome of the discussion.`,
+    },
+    {
+      id: '3',
+      sectionHeader: 'Key Discussion Points',
+      sectionInstructions: `The main topics and points discussed in the conversation as bullet points.
+Group related points under subheadings if there were multiple distinct topics.
+Use h3 headers (###) for topic groupings if needed.
+Focus on substance, not filler or small talk.`,
+    },
+    {
+      id: '4',
+      sectionHeader: 'Action Items',
+      isSectionOptional: true,
+      sectionInstructions: `Any tasks, to-dos, or commitments that came out of the conversation.
+Format as a task list using - [ ] syntax.
+Include who is responsible if mentioned.
+If no action items were discussed, leave empty.`,
+    },
+    {
+      id: '5',
+      sectionHeader: 'Decisions Made',
+      isSectionOptional: true,
+      sectionInstructions: `Any decisions or agreements reached during the conversation.
+Format as bullet points.
+If no concrete decisions were made, leave empty.`,
+    },
+    {
+      id: '6',
+      sectionHeader: 'Follow-ups',
+      isSectionOptional: true,
+      sectionInstructions: `Items that need follow-up, unanswered questions, or topics to revisit.
+Include any scheduled next steps (meetings, calls, deadlines mentioned).
+If none, leave empty.`,
     },
   ],
 };
@@ -243,7 +296,10 @@ const TemplateControls: React.FC<{
             {noteTemplates.map((template) => (
               <option key={template.name} value={template.name}>
                 {template.name}{' '}
-                {template.name === DEFAULT_TEMPLATE.name ? '(Locked)' : ''}
+                {template.name === DEFAULT_TEMPLATE.name ||
+                template.name === CONVERSATION_TEMPLATE.name
+                  ? '(Locked)'
+                  : ''}
               </option>
             ))}
           </select>
@@ -356,17 +412,28 @@ const TemplateControls: React.FC<{
   );
 };
 
+// Ensure built-in templates are always available
+const ensureBuiltInTemplates = (templates: ScribeTemplate[]): ScribeTemplate[] => {
+  const result = [...templates];
+  if (!result.some((t) => t.name === CONVERSATION_TEMPLATE.name)) {
+    result.push(CONVERSATION_TEMPLATE);
+  }
+  return result;
+};
+
 export const NoteTemplateSettings: React.FC<{
   plugin: ScribePlugin;
   saveSettings: () => void;
 }> = ({ plugin, saveSettings }) => {
-  const [noteTemplates, setNoteTemplates] = useState(
-    plugin.settings.noteTemplates,
+  const [noteTemplates, setNoteTemplates] = useState(() =>
+    ensureBuiltInTemplates(plugin.settings.noteTemplates),
   );
   const [activeTemplate, setActiveTemplate] = useState(
     plugin.settings.activeNoteTemplate,
   );
-  const isTemplateLocked = activeTemplate.name === DEFAULT_TEMPLATE.name;
+  const isTemplateLocked =
+    activeTemplate.name === DEFAULT_TEMPLATE.name ||
+    activeTemplate.name === CONVERSATION_TEMPLATE.name;
 
   useEffect(() => {
     plugin.settings.noteTemplates = noteTemplates;
