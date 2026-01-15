@@ -2,6 +2,10 @@
   <img src="logos/mr-c.png" alt="C-Scribe Logo" width="200">
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/status-not%20functional-red" alt="Status: Not Functional">
+</p>
+
 # C-Scribe for Obsidian
 
 Record voice notes, transcribe with AssemblyAI, and summarize conversations with Claude. Based on [Scribe by Mike Alicea](https://github.com/Mikodin/obsidian-scribe).
