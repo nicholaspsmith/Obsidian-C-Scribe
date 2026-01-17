@@ -45,9 +45,6 @@ export class ScribeControlsModal extends Modal {
 
 const ScribeModal: React.FC<{ plugin: ScribePlugin }> = ({ plugin }) => {
   const [isActive, setIsActive] = useState(false);
-  const [isPaused, setIsPaused] = useState(true);
-  const [recordingState, setRecordingState] =
-    useState<RecordingState>('inactive');
   const [isScribing, setIsScribing] = useState(false);
   const [recordingStartTimeMs, setRecordingStartTimeMs] = useState<
     number | null
@@ -69,44 +66,17 @@ const ScribeModal: React.FC<{ plugin: ScribePlugin }> = ({ plugin }) => {
     Boolean(plugin.settings.assemblyAiApiKey);
 
   const handleStart = async () => {
-    setRecordingState('recording');
     await plugin.startRecording();
     setRecordingStartTimeMs(Date.now());
-
     setIsActive(true);
-    setIsPaused(false);
-  };
-
-  const handlePauseResume = () => {
-    const updatedIsPauseState = !isPaused;
-    setIsPaused(updatedIsPauseState);
-
-    if (updatedIsPauseState) {
-      setRecordingState('paused');
-    } else {
-      setRecordingState('recording');
-    }
-
-    plugin.handlePauseResumeRecording();
   };
 
   const handleComplete = async () => {
-    setIsPaused(true);
     setIsScribing(true);
     setRecordingStartTimeMs(null);
-    setRecordingState('inactive');
     await plugin.scribe(scribeOptions);
-    setIsPaused(false);
     setIsActive(false);
     setIsScribing(false);
-  };
-
-  const handleReset = () => {
-    plugin.cancelRecording();
-
-    setRecordingState('inactive');
-    setIsActive(false);
-    setRecordingStartTimeMs(null);
   };
 
   return (
@@ -141,14 +111,10 @@ const ScribeModal: React.FC<{ plugin: ScribePlugin }> = ({ plugin }) => {
           <ModalRecordingTimer startTimeMs={recordingStartTimeMs} />
 
           <ModalRecordingButtons
-            recordingState={recordingState}
             active={isActive}
-            isPaused={isPaused}
             isScribing={isScribing}
             handleStart={handleStart}
-            handlePauseResume={handlePauseResume}
             handleComplete={handleComplete}
-            handleReset={handleReset}
           />
         </>
       )}
