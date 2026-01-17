@@ -65,47 +65,60 @@ export const CONVERSATION_TEMPLATE: ScribeTemplate = {
       id: '1',
       sectionHeader: 'Participants',
       isSectionOptional: true,
-      sectionInstructions: `List the participants in the conversation if identifiable from context (names, roles, or Speaker A/B if unknown).
-Format as a simple bullet list. If only one person is speaking or participants cannot be determined, leave empty.`,
+      sectionInstructions: `List the participants in the conversation if identifiable from context.
+Format as a bullet list with names and roles if mentioned (e.g., "- John Smith (Product Manager)").
+Use Speaker A/B/C if names are not mentioned but multiple speakers are evident.
+If only one person is speaking or participants cannot be determined, leave empty.`,
     },
     {
       id: '2',
       sectionHeader: 'Summary',
-      sectionInstructions: `A concise 2-3 sentence overview of what this conversation was about.
-Capture the main purpose and outcome of the discussion.`,
+      sectionInstructions: `A concise 2-3 sentence executive summary of the meeting/conversation.
+Answer: What was the main purpose? What was the key outcome or conclusion?
+Write in active voice, focusing on substance not process.`,
     },
     {
       id: '3',
-      sectionHeader: 'Key Discussion Points',
-      sectionInstructions: `The main topics and points discussed in the conversation as bullet points.
-Group related points under subheadings if there were multiple distinct topics.
-Use h3 headers (###) for topic groupings if needed.
-Focus on substance, not filler or small talk.`,
+      sectionHeader: 'Topics Discussed',
+      sectionInstructions: `Organize the discussion by topic in the order they were discussed.
+Use h3 headers (###) for each major topic area.
+Under each topic, use bullet points to capture:
+- Key points made
+- Important details or context shared
+- Different perspectives if multiple speakers contributed
+Keep each bullet focused and actionable. Avoid filler or small talk.`,
     },
     {
       id: '4',
-      sectionHeader: 'Action Items',
+      sectionHeader: 'Decisions Made',
       isSectionOptional: true,
-      sectionInstructions: `Any tasks, to-dos, or commitments that came out of the conversation.
-Format as a task list using - [ ] syntax.
-Include who is responsible if mentioned.
-If no action items were discussed, leave empty.`,
+      sectionInstructions: `Document all decisions or agreements reached during the conversation.
+For each decision include:
+- What was decided
+- The rationale or reasoning (if provided)
+- Who approved or was involved in the decision
+Format as bullet points. If no concrete decisions were made, leave empty.`,
     },
     {
       id: '5',
-      sectionHeader: 'Decisions Made',
+      sectionHeader: 'Action Items',
       isSectionOptional: true,
-      sectionInstructions: `Any decisions or agreements reached during the conversation.
-Format as bullet points.
-If no concrete decisions were made, leave empty.`,
+      sectionInstructions: `Extract all tasks, to-dos, or commitments from the conversation.
+Format as a task list using Obsidian checkbox syntax:
+- [ ] Specific task description (Owner, Due: date if mentioned)
+Be specific about what needs to be done, who is responsible, and any deadlines.
+If no action items were discussed, leave empty.`,
     },
     {
       id: '6',
-      sectionHeader: 'Follow-ups',
+      sectionHeader: 'Open Questions & Follow-ups',
       isSectionOptional: true,
-      sectionInstructions: `Items that need follow-up, unanswered questions, or topics to revisit.
-Include any scheduled next steps (meetings, calls, deadlines mentioned).
-If none, leave empty.`,
+      sectionInstructions: `Capture items that need follow-up attention:
+- Unanswered questions raised during discussion
+- Topics that need further exploration
+- Parking lot items deferred for later
+- Scheduled next steps (future meetings, deadlines, milestones)
+Format as bullet points. If none, leave empty.`,
     },
   ],
 };
