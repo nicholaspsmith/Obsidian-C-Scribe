@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/status-not%20functional-red" alt="Status: Not Functional">
+  <img src="https://img.shields.io/badge/status-functional-green" alt="Status: Functional">
 </p>
 
 # C-Scribe for Obsidian
