@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import useSettingsForm from '../hooks/useSettingsForm';
-import { SettingsSelect } from './SettingsControl';
+import { SettingsSelect, SettingsToggle } from './SettingsControl';
 
 interface AudioDevice {
   deviceId: string;
@@ -15,10 +15,13 @@ function AudioDeviceSettings() {
   const [isLoading, setIsLoading] = useState(true);
   const [audioDevices, setAudioDevices] = useState<AudioDevice[]>([]);
 
-  const valuesMapping = audioDevices.map((device) => ({
-    displayName: device.label,
-    value: device.deviceId,
-  }));
+  const valuesMapping = [
+    { displayName: 'Default (System)', value: '' },
+    ...audioDevices.map((device) => ({
+      displayName: device.label,
+      value: device.deviceId,
+    })),
+  ];
 
   useEffect(() => {
     const getAudioDevices = async () => {
@@ -53,12 +56,19 @@ function AudioDeviceSettings() {
   return isLoading ? (
     <div>Loading devices...</div>
   ) : (
-    <SettingsSelect
-      {...register('selectedAudioDeviceId')}
-      name="Audio Input Device"
-      description="Select which microphone to use for recording"
-      valuesMapping={valuesMapping}
-    />
+    <>
+      <SettingsSelect
+        {...register('selectedAudioDeviceId')}
+        name="Audio Input Device"
+        description="Select which microphone to use for recording"
+        valuesMapping={valuesMapping}
+      />
+      <SettingsToggle
+        {...register('enableMultiChannelMix')}
+        name="Multi-Channel Mix (System Audio)"
+        description="Mix channels 1-2 (mic) with channels 3-4 (monitor/system audio). Enable this when using an audio interface with virtual channels to capture both your mic and system audio together."
+      />
+    </>
   );
 }
 

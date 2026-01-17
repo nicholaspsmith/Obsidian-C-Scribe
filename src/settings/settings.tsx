@@ -49,6 +49,7 @@ export interface ScribePluginSettings {
   isFrontMatterLinkToScribe: boolean;
   selectedAudioDeviceId: string;
   audioFileFormat: 'webm' | 'mp3';
+  enableMultiChannelMix: boolean;
 }
 
 export const DEFAULT_SETTINGS: ScribePluginSettings = {
@@ -73,6 +74,7 @@ export const DEFAULT_SETTINGS: ScribePluginSettings = {
   isFrontMatterLinkToScribe: true,
   selectedAudioDeviceId: '',
   audioFileFormat: 'webm',
+  enableMultiChannelMix: false,
 };
 
 export async function handleSettingsTab(plugin: ScribePlugin) {
