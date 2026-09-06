@@ -3,10 +3,16 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/status-functional-green" alt="Status: Functional">
+  <img src="https://img.shields.io/badge/status-sunset-lightgrey" alt="Status: Sunset">
 </p>
 
 # C-Scribe for Obsidian
+
+> **Sunset (September 2026).** This plugin is no longer maintained. It was an
+> experiment that never worked reliably end to end, and there are no plans to
+> fix it. The code stays up for reference; use it at your own risk, or start
+> from the upstream [Scribe by Mike Alicea](https://github.com/Mikodin/obsidian-scribe)
+> instead.
 
 Record voice notes, transcribe with AssemblyAI, and summarize conversations with Claude. Based on [Scribe by Mike Alicea](https://github.com/Mikodin/obsidian-scribe).
 
